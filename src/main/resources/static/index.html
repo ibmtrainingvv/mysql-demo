@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function sendData() {
+		fetch('/user', {
+			method:'POST',
+			headers: {
+			      'Content-Type': 'application/json'
+			    },
+			    body:JSON.stringify({
+			    	name: document.getElementById('username').value,
+			    	email: document.getElementById('email').value,
+			    	mobile: document.getElementById('mobile').value
+
+
+			    })
+		})
+		.then(response=>refresh(getData()));
+	}
+	
+	function usendData() {
+		fetch('/user/'+document.getElementById('id').value, {
+			method:'PUT',
+			headers: {
+			      'Content-Type': 'application/json'
+			    },
+			    body:JSON.stringify({
+			    	name: document.getElementById('uusername').value,
+			    	email: document.getElementById('uemail').value,
+			    	mobile: document.getElementById('umobile').value
+
+
+			    })
+		})
+		.then(response=>refresh());
+
+	}
+	function getData() {
+		
+	
+		   fetch('/user/'+document.getElementById('userid').value)
+		  .then(response => response.json())
+				  .then(json => {
+				        let radr =  JSON.stringify(json)
+				         radr = JSON.parse(radr)
+				         				        let txt1= "<table><tr><th>Id</th><th>Name</td><th> email id</th><th>phone number</th></tr>";
+
+				         if(radr.id)
+				        	 {
+						       txt1+="<tr><td>"+radr.id+"</td><td>"+radr.name+"</td><td>"+radr.email+"</td><td>"+radr.mobile+"</td></tr>";
+				        	 }
+				        for(let i=0;i<radr.length;i++){
+				       txt1+="<tr><td>"+radr[i].id+"</td><td>"+radr[i].name+"</td><td>"+radr[i].email+"</td><td>"+radr[i].mobile+"</td></tr>";
+						}
+						txt1+="</table>";
+					   document.getElementById('showdata').innerHTML =txt1})
+		  .then(data => console.log(data));
+		  
+		 
+		  
+		  
+		
+		
+	}
+	
+	function refresh()
+	{
+	 fetch('/user/')
+	  .then(response => response.json())
+			  .then(json => {
+			        let radr =  JSON.stringify(json)
+			         radr = JSON.parse(radr)
+			         				        let txt1= "<select name=\"id\" id=\"id\" >";
+
+			        for(let i=0;i<radr.length;i++){
+			       txt1+="<option value='"+radr[i].id+"'>"+radr[i].id +"  "+radr[i].name+"</option>";
+					}
+					txt1+="</select>";
+				   document.getElementById('idselect').innerHTML =txt1})
+				   .then(data => 	getData());
+	}
+	refresh();
+	
+</script>
+</head>
+<body>
+	<center>
+		<input id='username' placeholder="Name"> <input id='email'
+			placeholder="email"> <input id='mobile' placeholder="mobile">
+		<button onclick="sendData()">Save User</button>
+		<br> <br> <input id='userid' placeholder="user id">
+
+		<button onclick="getData()">Get User</button>
+		<br>
+		<br> <span id='idselect'></span> <input id='uusername'
+			placeholder="Name"> <input id='uemail' placeholder="email">
+		<input id='umobile' placeholder="mobile">
+		<button onclick="usendData()">Update User</button>
+
+		<br> <br> <br> <span id='showdata'></span>
+</body>
+</html>
