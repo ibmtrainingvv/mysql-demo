@@ -3,9 +3,17 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 	function sendData() {
-		fetch('/user', {
+		const userForm=document.getElementById('userForm');
+		if(!userForm.checkValidity()){
+			alert("wrong data")
+			return;
+		}
+		const promise=fetch('/user', {
 			method:'POST',
 			headers: {
 			      'Content-Type': 'application/json'
@@ -19,6 +27,11 @@
 			    })
 		})
 		.then(response=>refresh(getData()));
+		
+		//promise.then=success(response);
+		promise.catch(function(){
+			console.log("errr");
+		})
 	}
 	
 	function usendData() {
@@ -46,14 +59,14 @@
 				  .then(json => {
 				        let radr =  JSON.stringify(json)
 				         radr = JSON.parse(radr)
-				         				        let txt1= "<table><tr><th>Id</th><th>Name</td><th> email id</th><th>phone number</th></tr>";
+				         				        let txt1= "<table class=\"table\"><tr><th scope=\"col\">Id</th><th  scope=\"col\">Name</td><th  scope=\"col\"> email id</th><th  scope=\"col\">phone number</th></tr>";
 
 				         if(radr.id)
 				        	 {
-						       txt1+="<tr><td>"+radr.id+"</td><td>"+radr.name+"</td><td>"+radr.email+"</td><td>"+radr.mobile+"</td></tr>";
+						       txt1+="<tr scope=\"row\"><td>"+radr.id+"</td><td>"+radr.name+"</td><td>"+radr.email+"</td><td>"+radr.mobile+"</td></tr>";
 				        	 }
 				        for(let i=0;i<radr.length;i++){
-				       txt1+="<tr><td>"+radr[i].id+"</td><td>"+radr[i].name+"</td><td>"+radr[i].email+"</td><td>"+radr[i].mobile+"</td></tr>";
+				       txt1+="<tr scope=\"row\"><td>"+radr[i].id+"</td><td>"+radr[i].name+"</td><td>"+radr[i].email+"</td><td>"+radr[i].mobile+"</td></tr>";
 						}
 						txt1+="</table>";
 					   document.getElementById('showdata').innerHTML =txt1})
@@ -87,19 +100,20 @@
 </script>
 </head>
 <body>
-	<center>
-		<input id='username' placeholder="Name"> <input id='email'
-			placeholder="email"> <input id='mobile' placeholder="mobile">
-		<button onclick="sendData()">Save User</button>
-		<br> <br> <input id='userid' placeholder="user id">
+	<center><form id="userForm">
+		<input id='username' placeholder="Name" > <input id='email'
+			placeholder="email"> <input id='mobile' type='tel' pattern='/^[6-9]{1}[0-9]{9}]$/' required placeholder="mobile"><br><br>
+		<button onclick="sendData()" class="btn btn-success">Save User</button><br>
 
-		<button onclick="getData()">Get User</button>
 		<br>
 		<br> <span id='idselect'></span> <input id='uusername'
 			placeholder="Name"> <input id='uemail' placeholder="email">
-		<input id='umobile' placeholder="mobile">
-		<button onclick="usendData()">Update User</button>
-
+		<input id='umobile' placeholder="mobile"><br><br>
+		<button onclick="usendData()" class="btn btn-warning">Update User</button>
+<br><br>		 <br> <input id='userid' placeholder="user id">
+<br><br>
+		<button onclick="getData()" class="btn btn-info">Get User</button>
 		<br> <br> <br> <span id='showdata'></span>
+		</form>
 </body>
 </html>
