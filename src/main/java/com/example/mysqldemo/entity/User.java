@@ -1,5 +1,7 @@
 package com.example.mysqldemo.entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -45,10 +47,19 @@ public class User {
 		this.mobile = mobile;
 	}
 
+	public Date getDob() {
+		return dob;
+	}
+
+	public void setDob(Date dob) {
+		this.dob = dob;
+	}
+
 	@Email(message = "Enter valid Email address")
 	private String email;
 	@Min(1000000000)
 	@Max(9999999999L)
 	private String mobile;
 	private String name;
+	private Date dob;
 }

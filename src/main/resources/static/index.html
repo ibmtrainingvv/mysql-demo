@@ -21,7 +21,8 @@
 			    body:JSON.stringify({
 			    	name: document.getElementById('username').value,
 			    	email: document.getElementById('email').value,
-			    	mobile: document.getElementById('mobile').value
+			    	mobile: document.getElementById('mobile').value,
+			    	dob:document.getElementById('dob').value
 
 
 			    })
@@ -43,7 +44,8 @@
 			    body:JSON.stringify({
 			    	name: document.getElementById('uusername').value,
 			    	email: document.getElementById('uemail').value,
-			    	mobile: document.getElementById('umobile').value
+			    	mobile: document.getElementById('umobile').value,
+			    	dob:document.getElementById('udob').value
 
 
 			    })
@@ -59,14 +61,14 @@
 				  .then(json => {
 				        let radr =  JSON.stringify(json)
 				         radr = JSON.parse(radr)
-				         				        let txt1= "<table class=\"table\"><tr><th scope=\"col\">Id</th><th  scope=\"col\">Name</td><th  scope=\"col\"> email id</th><th  scope=\"col\">phone number</th></tr>";
+				         				        let txt1= "<table class=\"table\"><tr><th scope=\"col\">Id</th><th  scope=\"col\">Name</td><th  scope=\"col\"> email id</th><th  scope=\"col\">phone number</th><th  scope=\"col\">DOB</th></tr>";
 
 				         if(radr.id)
 				        	 {
 						       txt1+="<tr scope=\"row\"><td>"+radr.id+"</td><td>"+radr.name+"</td><td>"+radr.email+"</td><td>"+radr.mobile+"</td></tr>";
 				        	 }
 				        for(let i=0;i<radr.length;i++){
-				       txt1+="<tr scope=\"row\"><td>"+radr[i].id+"</td><td>"+radr[i].name+"</td><td>"+radr[i].email+"</td><td>"+radr[i].mobile+"</td></tr>";
+				       txt1+="<tr scope=\"row\"><td>"+radr[i].id+"</td><td>"+radr[i].name+"</td><td>"+radr[i].email+"</td><td>"+radr[i].mobile+"</td><td>"+radr[i].dob+"</tr>";
 						}
 						txt1+="</table>";
 					   document.getElementById('showdata').innerHTML =txt1})
@@ -102,18 +104,19 @@
 <body>
 	<center><form id="userForm">
 		<input id='username' placeholder="Name" > <input id='email'
-			placeholder="email"> <input id='mobile' type='tel' pattern='/^[6-9]{1}[0-9]{9}]$/' required placeholder="mobile"><br><br>
+			placeholder="email"> <input id='mobile' type='tel' pattern='[0-9]{10}' required placeholder="mobile"><br><br>
+		<label> DOB </label><input id='dob' type='date' placeholder="dob" > </form>
 		<button onclick="sendData()" class="btn btn-success">Save User</button><br>
 
 		<br>
 		<br> <span id='idselect'></span> <input id='uusername'
 			placeholder="Name"> <input id='uemail' placeholder="email">
-		<input id='umobile' placeholder="mobile"><br><br>
+		<input id='umobile' placeholder="mobile"><label> DOB </label><input id='udob' type='date' placeholder="dob" ><br><br>
 		<button onclick="usendData()" class="btn btn-warning">Update User</button>
 <br><br>		 <br> <input id='userid' placeholder="user id">
 <br><br>
 		<button onclick="getData()" class="btn btn-info">Get User</button>
 		<br> <br> <br> <span id='showdata'></span>
-		</form>
+		
 </body>
 </html>
